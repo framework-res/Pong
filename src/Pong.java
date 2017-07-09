@@ -2,32 +2,37 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Pong extends JPanel implements ActionListener, KeyListener
+public class Pong extends JPanel implements ActionListener, KeyListener, Runnable
 {
 
-
+	private static final long serialVersionUID = 1L;
 
 	public static Pong pong;
 
-	public int larghezza = 1300, altezza = 700;
+	public int larghezza = 1366, altezza = 768;
 
 	public Grafica grafica;
+	
+	JButton button = new JButton("Click");
 
 	public Giocatore giocatore1;
 
 	public Giocatore giocatore2;
 
-	public Palla palla;
+	public static Palla palla;
 
 	public boolean w, s, up, down;
 
@@ -61,7 +66,7 @@ public class Pong extends JPanel implements ActionListener, KeyListener
 	public Pong()
 	{
 		
-		Timer timer = new Timer(20, this);//riceve un intero in millisecondi ed un ActionListener
+		Timer timer = new Timer(15, this);//riceve un intero in millisecondi ed un ActionListener
 		random = new Random();
 
 		jframe = new JFrame("Pong");
@@ -132,16 +137,17 @@ public class Pong extends JPanel implements ActionListener, KeyListener
 
 		if (stato == 0)
 		{
-			g.setColor(Color.GREEN);
+			g.setColor(Color.ORANGE);
 			g.setFont(new Font("Comic Sans", 1, 50));
-			g.drawString("PONG", larghezza / 2 - 80, 50);
+			g.drawString("PONG MULTIPLAYER", larghezza / 2 - 250, 50);
 			g.setFont(new Font("Comic Sans", 5, 30));
-			g.drawString("Premi SPAZIO per giocare", larghezza / 2 - 175, altezza / 2 - 200);
-			g.drawString("Si vince a: " + limite , larghezza / 2 - 90, altezza / 2 -100);
+			g.setColor(Color.LIGHT_GRAY);
+			g.drawString("Premi G per iniziare a giocare", larghezza / 2 - 175, altezza / 2 - 200);
+			g.drawString(" Punti per Vincere: " + limite , larghezza / 2 - 90, altezza / 2 -100);
 			g.drawString("Difficoltà:" + Nome(difficoltà), larghezza / 2 - 100, altezza / 2 );
-			g.drawString("Antonio Durante", 100, altezza / 2 +300);
 			g.setFont(new Font("Comic Sans", 1, 20));
-			g.drawString("Info:", larghezza / 2 + 250, altezza/2 +150);
+			g.setColor(Color.RED);
+			g.drawString("Comandi:", larghezza / 2 + 250, altezza/2 +150);
 			g.drawString("Premi P per andare in pausa",larghezza / 2 + 160 , altezza/2 +200);
 			g.drawString("Ripremi P per tornare al gioco",larghezza / 2 + 160 , altezza/2 +230);
 			g.drawString("Premi ESC per tornare qui", larghezza/2 + 160, altezza/2+260);
@@ -173,19 +179,20 @@ public class Pong extends JPanel implements ActionListener, KeyListener
 
 		if (stato == 3)
 		{
-			g.setColor(Color.WHITE);
+			g.setColor(Color.ORANGE);
 			g.setFont(new Font("Arial", 1, 50));
+		
 
-			g.drawString("PONG", larghezza / 2 - 75, 50);
+			g.drawString("PONG MULTIPLAYER", larghezza / 2 - 250, 50);
 
 			
-			g.drawString("Giocatore " + vittoria + " Vince!", larghezza / 2 - 215, 200);
+			g.drawString(" IL GIOCATORE " + vittoria + " HA VINTO!", larghezza / 2 - 350, 200);
 			
 
 			g.setFont(new Font("Arial", 1, 30));
 
-			g.drawString("Premi spazio per rigiocare", larghezza / 2 - 185, altezza / 2 - 25);
-			g.drawString("Premi ESC per accedere al menu", larghezza / 2 - 230, altezza / 2 + 25);
+			g.drawString("Premi G per rigiocare", larghezza / 2 - 250, altezza / 2 - 25);
+			g.drawString("Premi ESC per tornare al menù", larghezza / 2 - 230, altezza / 2 + 25);
 		}
 	}
 
@@ -203,6 +210,14 @@ public class Pong extends JPanel implements ActionListener, KeyListener
 	public static void main(String[] args)
 	{
 		pong = new Pong();
+		//create and start threads.
+		Thread ball = new Thread(pong);
+		ball.start();
+		Thread p1 = new Thread(pong);
+		Thread p2 = new Thread(pong);
+		p2.start();
+		p1.start();
+		
 	}
 
 	@Override
@@ -237,7 +252,7 @@ public class Pong extends JPanel implements ActionListener, KeyListener
 		{
 			stato = 0;
 		}
-		else if (id == KeyEvent.VK_SPACE)
+		else if (id == KeyEvent.VK_G && stato==0)
 		{
 			start();
 		}
@@ -287,6 +302,12 @@ public class Pong extends JPanel implements ActionListener, KeyListener
 	public void keyTyped(KeyEvent e)
 	{
 
+	}
+
+	@Override
+	public void run() {
+		
+		
 	}
 	
 }

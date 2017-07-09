@@ -4,7 +4,7 @@
 import java.util.Random;
 
 
-	public class Palla
+	public class Palla 
 	{
 
 		public int x, y, larghezza = 30, altezza = 30;
@@ -14,15 +14,10 @@ import java.util.Random;
 		public Random random;
 
 		private Pong pong;
+		
 
 		public int colpi;
-		
-
-
-		
-		
-		
-		
+	
 		public Palla(Pong pong)
 		{
 			this.pong = pong;
@@ -32,7 +27,7 @@ import java.util.Random;
 			diNuovo();
 		}
 
-		public void movimento(Giocatore g1, Giocatore g2,int velocità)
+		public void movimento(Giocatore g1, Giocatore g2, int velocità)
 		{
 			this.x += movO * velocità;
 			this.y += movV * velocità;
@@ -144,10 +139,7 @@ import java.util.Random;
 		{
 			g.setColor(Color.ORANGE);
 			g.fillOval(x, y, larghezza, altezza);
-		}
-
-		
-		
+		}		
 		
 		
 

@@ -6,7 +6,7 @@ public class Giocatore
 
 	public int numeroGiocatore;
 
-	public int x, y, larghezza = 30, altezza = 100;
+	public int x, y, larghezza = 20, altezza = 180;
 
 	public int punteggio;
 
